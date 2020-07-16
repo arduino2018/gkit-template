@@ -1,0 +1,29 @@
+{
+  "name": "gkit-template",
+  "version": "1.0.0",
+  "description": "The gkit default template",
+  "main": "contract/index.d.ts",
+  "typings": "index.d.ts",
+  "repository": "https://github.com/GenimousChain/gkit-template.git",
+  "license": "MIT",
+  "keywords": [
+    "GenimousChain 2.0 contract template"
+  ],
+  "engines": {
+    "node": ">=8.9"
+  },
+  "devDependencies": {
+    "async": "^2.6.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^5.2.0",
+    "gkit-lint": "^0.0.2",
+    "tslint": "^5.4.3",
+    "typescript": "^2.8.3",
+    "u3.js": "^0.3.16",
+    "ultrascript": "1.1.12"
+  },
+  "dependencies": {
+    "ultrain-ts-lib": "0.2.6"
+  }
+}

@@ -1,2 +1,1 @@
-# gkit-template
-gkit-template for GenimousChain 2.0
+gkit template
