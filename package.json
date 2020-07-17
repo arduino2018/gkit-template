@@ -5,7 +5,7 @@
   "main": "contract/index.d.ts",
   "typings": "index.d.ts",
   "repository": "https://github.com/GenimousChain/gkit-template.git",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "keywords": [
     "GenimousChain 2.0 contract template"
   ],
@@ -21,9 +21,9 @@
     "tslint": "^5.4.3",
     "typescript": "^2.8.3",
     "u3.js": "^0.3.16",
-    "ultrascript": "1.1.12"
+    "gchain-asm-script": "git+https://github.com/GenimousChain/gchain-asm-script.git"
   },
   "dependencies": {
-    "ultrain-ts-lib": "0.2.6"
+    "gchain-ts-lib": "git+https://github.com/GenimousChain/gchain-ts-lib.git"
   }
 }
