@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/ultrascript/std/assembly.json",
+  "extends": "./node_modules/gchain-asm-script/std/assembly.json",
   "include": [
     "./contract/*.ts",
     "./template/*.ts",
