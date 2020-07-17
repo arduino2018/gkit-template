@@ -1,6 +1,6 @@
-import { Contract } from "ultrain-ts-lib/src/contract";
-import { Log } from "ultrain-ts-lib/src/log";
-import { NAME, Account } from "ultrain-ts-lib/src/account";
+import { Contract } from "gchain-ts-lib/src/contract";
+import { Log } from "gchain-ts-lib/src/log";
+import { NAME, Account } from "gchain-ts-lib/src/account";
 
 class Address implements Serializable {
   street: string = "";
@@ -53,7 +53,7 @@ class HumanResource extends Contract {
     p.salary = salary;
 
     let existing = this.salesdb.exists(id);
-    ultrain_assert(!existing, "this person has existed in db yet.");
+    gchain_assert(!existing, "this person has existed in db yet.");
     this.salesdb.emplace(p);
   }
 
@@ -68,7 +68,7 @@ class HumanResource extends Contract {
     p.salary = salary;
 
     let existing = this.marketingdb.exists(id);
-    ultrain_assert(!existing, "this person has existed in db yet.");
+    gchain_assert(!existing, "this person has existed in db yet.");
     this.marketingdb.emplace(p);
   }
 
@@ -76,7 +76,7 @@ class HumanResource extends Contract {
   modify(id: u64, name: string, salary: u32): void {
     let p = new Person();
     let existing = this.salesdb.get(id, p);
-    ultrain_assert(existing, "the person does not exist.");
+    gchain_assert(existing, "the person does not exist.");
 
     p.name   = name;
     p.salary = salary;
@@ -88,7 +88,7 @@ class HumanResource extends Contract {
   remove(id: u64): void {
     Log.s("start to remove: ").i(id).flush();
     let existing = this.salesdb.exists(id);
-    ultrain_assert(existing, "this id is not exist.");
+    gchain_assert(existing, "this id is not exist.");
     this.salesdb.erase(id);
   }
 
@@ -100,7 +100,7 @@ class HumanResource extends Contract {
     } else if (dbname == "marketing") {
       cursor = this.marketingdb.cursor();
     } else {
-      ultrain_assert(false, "unknown db name.");
+      gchain_assert(false, "unknown db name.");
     }
     Log.s("cursor.count =").i(cursor.count).flush();
 
@@ -118,7 +118,7 @@ class HumanResource extends Contract {
     } else if (dbname == "marketing") {
       this.marketingdb.dropAll();
     } else {
-      ultrain_assert(false, "unknown db name.");
+      gchain_assert(false, "unknown db name.");
     }
   }
 

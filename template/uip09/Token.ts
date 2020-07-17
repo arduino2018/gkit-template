@@ -1,12 +1,12 @@
-import { Action } from "ultrain-ts-lib/src/action";
-import { Contract } from "ultrain-ts-lib/src/contract";
-import { env as action } from "ultrain-ts-lib/internal/action.d";
-import { Asset, StringToSymbol } from "ultrain-ts-lib/src/asset";
-import { Log } from "ultrain-ts-lib/src/log";
-import { ACCOUNT, NAME, Account, RNAME } from "ultrain-ts-lib/src/account";
-import { UIP09 } from "ultrain-ts-lib/uips/uip09";
+import { Action } from "gchain-ts-lib/src/action";
+import { Contract } from "gchain-ts-lib/src/contract";
+import { env as action } from "gchain-ts-lib/internal/action.d";
+import { Asset, StringToSymbol } from "gchain-ts-lib/src/asset";
+import { Log } from "gchain-ts-lib/src/log";
+import { ACCOUNT, NAME, Account, RNAME } from "gchain-ts-lib/src/account";
+import { UIP09 } from "gchain-ts-lib/uips/uip09";
 
-class NftAccount implements Serializable {    
+class NftAccount implements Serializable {
     balance: Asset;
     token_ids: Array<id_type>; // Current account token ids
 
@@ -125,15 +125,15 @@ export class UIP09Impl extends Contract implements UIP09 {
     create(issuer: account_name, maximum_supply: Asset): void {
         Action.requireAuth(this.receiver);
         let sym = maximum_supply.symbolName();
-        ultrain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
-        ultrain_assert(maximum_supply.symbolPrecision() == 0, "token.create: symbol precision must be a whole number");
-        ultrain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
+        gchain_assert(maximum_supply.isSymbolValid(), "token.create: invalid symbol name.");
+        gchain_assert(maximum_supply.symbolPrecision() == 0, "token.create: symbol precision must be a whole number");
+        gchain_assert(maximum_supply.isValid(), "token.create: invalid supply.");
 
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         let cs: CurrencyStats = new CurrencyStats();
 
         let existing = statstable.get(sym, cs);
-        ultrain_assert(!existing, "token with symbol already exists.");
+        gchain_assert(!existing, "token with symbol already exists.");
 
         cs.supply.setSymbol(maximum_supply.getSymbol());
         cs.max_supply = maximum_supply;
@@ -143,22 +143,22 @@ export class UIP09Impl extends Contract implements UIP09 {
 
     @action
     issue(to: account_name, quantity: Asset, uris: string[], name: string, memo: string): void {
-        ultrain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
-        ultrain_assert(quantity.symbolPrecision() == 0, "token.issue: symbol precision must be a whole number");
-        ultrain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
+        gchain_assert(quantity.isSymbolValid(), "token.issue: invalid symbol name");
+        gchain_assert(quantity.symbolPrecision() == 0, "token.issue: symbol precision must be a whole number");
+        gchain_assert(memo.length <= 256, "token.issue: memo has more than 256 bytes.");
 
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(quantity.symbolName(), st);
 
-        ultrain_assert(existing, "token.issue: symbol name is not exist.");
+        gchain_assert(existing, "token.issue: symbol name is not exist.");
 
         Action.requireAuth(st.issuer);
-        ultrain_assert(quantity.isValid(), "token.issue: invalid quantity.");
-        ultrain_assert(quantity.getSymbol() == st.max_supply.getSymbol(), "token.issue: symbol precision mismatch.");
-        ultrain_assert(quantity.getAmount() <= st.max_supply.getAmount() - st.supply.getAmount(), "token.issue: quantity exceeds available supply.");
-        ultrain_assert(quantity.getAmount() == uris.length, "token.issue: mismatch between number of tokens and uris provided");
-        ultrain_assert(uris.length != 0, "token.issue: issue quantity can't be zero.");
+        gchain_assert(quantity.isValid(), "token.issue: invalid quantity.");
+        gchain_assert(quantity.getSymbol() == st.max_supply.getSymbol(), "token.issue: symbol precision mismatch.");
+        gchain_assert(quantity.getAmount() <= st.max_supply.getAmount() - st.supply.getAmount(), "token.issue: quantity exceeds available supply.");
+        gchain_assert(quantity.getAmount() == uris.length, "token.issue: mismatch between number of tokens and uris provided");
+        gchain_assert(uris.length != 0, "token.issue: issue quantity can't be zero.");
 
         let token_ids: Array<id_type> = new Array<id_type>();
         let token_id_start = this.availablePrimaryKey();
@@ -182,26 +182,26 @@ export class UIP09Impl extends Contract implements UIP09 {
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let tokenExisting = tokens.get(token_id, token);
 
-        ultrain_assert(tokenExisting, "token.transfer: token with specified ID does not exist");
+        gchain_assert(tokenExisting, "token.transfer: token with specified ID does not exist");
 
         let symname = token.symbolName();
 
-        ultrain_assert(from != to, "token.transfer: cannot transfer to self.");
+        gchain_assert(from != to, "token.transfer: cannot transfer to self.");
         Action.requireAuth(from);
-        ultrain_assert(Account.isValid(to), "token.transfer: to account does not exist.");
+        gchain_assert(Account.isValid(to), "token.transfer: to account does not exist.");
 
         // let symname: SymbolName = quantity.symbolName();
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         let st: CurrencyStats = new CurrencyStats();
         let statExisting = statstable.get(symname, st);
 
-        ultrain_assert(statExisting, "token.transfer symbol name is not exist.");
+        gchain_assert(statExisting, "token.transfer symbol name is not exist.");
 
         Action.requireRecipient(from);
         Action.requireRecipient(to);
 
-        ultrain_assert(from == token.owner, "token.transfer: sender does not own token with specified ID.");
-        ultrain_assert(memo.length <= 256, "token.transfer: memo has more than 256 bytes.");
+        gchain_assert(from == token.owner, "token.transfer: sender does not own token with specified ID.");
+        gchain_assert(memo.length <= 256, "token.transfer: memo has more than 256 bytes.");
 
         // modify the owner and balance, transfer token
         token.owner = to;
@@ -220,7 +220,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(id, token);
 
-        ultrain_assert(existing, "getBalance failed, account is not existed.")
+        gchain_assert(existing, "getBalance failed, account is not existed.")
         return RNAME(token.owner);
     }
 
@@ -230,7 +230,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         let token: Token = new Token(0, 0, new Asset(), "", "");
         let existing = tokens.get(token_id, token);
 
-        ultrain_assert(existing, "getBalance failed, account is not existed.")
+        gchain_assert(existing, "getBalance failed, account is not existed.")
         return token.uri;
     }
 
@@ -240,7 +240,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         let st = new CurrencyStats();
         let existing = statstable.get(symname, st);
-        ultrain_assert(existing, "totalSupply failed, states is not existed.");
+        gchain_assert(existing, "totalSupply failed, states is not existed.");
         return st.max_supply;
     }
 
@@ -251,8 +251,8 @@ export class UIP09Impl extends Contract implements UIP09 {
         let account = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
 
-        ultrain_assert(existing, "tokenByIndex failed, account is not existed.")
-        ultrain_assert(account.token_ids.length > index, "tokenByIndex failed, the index beyond the range.");
+        gchain_assert(existing, "tokenByIndex failed, account is not existed.")
+        gchain_assert(account.token_ids.length > index, "tokenByIndex failed, the index beyond the range.");
 
         return account.token_ids[index];
     }
@@ -263,7 +263,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         let accounts: DBManager<NftAccount> = new DBManager<NftAccount>(NAME(ACCOUNTTABLE), owner);
         let account = new NftAccount(new Asset());
         let existing = accounts.get(symname, account);
-        ultrain_assert(existing, "balanceOf failed, account is not existed or account has no the Asset.")
+        gchain_assert(existing, "balanceOf failed, account is not existed or account has no the Asset.")
 
         return account.balance;
     }
@@ -303,7 +303,7 @@ export class UIP09Impl extends Contract implements UIP09 {
             to.current_id = max_token_id;
             tokens.emplace(to);
         } else {
-            ultrain_assert(max_token_id > token.current_id, "updateMaxPrimaryKey failed: the updated primary is less than the existing primay key.");
+            gchain_assert(max_token_id > token.current_id, "updateMaxPrimaryKey failed: the updated primary is less than the existing primay key.");
             token.current_id = max_token_id;
             tokens.modify(token);
         }
@@ -342,8 +342,8 @@ export class UIP09Impl extends Contract implements UIP09 {
         let from: NftAccount = new NftAccount(new Asset());
         let existing = ats.get(value.symbolName(), from);
 
-        ultrain_assert(existing, "token.subBalance: from account is not exist.");
-        ultrain_assert(from.balance.getAmount() >= value.getAmount(), "token.subBalance: overdrawing balance.");
+        gchain_assert(existing, "token.subBalance: from account is not exist.");
+        gchain_assert(from.balance.getAmount() >= value.getAmount(), "token.subBalance: overdrawing balance.");
 
         if (from.balance.getAmount() == value.getAmount()) {
             ats.erase(from.primaryKey());
@@ -366,7 +366,7 @@ export class UIP09Impl extends Contract implements UIP09 {
         let statstable: DBManager<CurrencyStats> = this.getStatDbManager();
         let st: CurrencyStats = new CurrencyStats();
         let existing = statstable.get(symname, st);
-        ultrain_assert(existing, "subSupply failed, states is not existed.");
+        gchain_assert(existing, "subSupply failed, states is not existed.");
 
         let amount = st.supply.getAmount() + quantity.getAmount();
         st.supply.setAmount(amount);

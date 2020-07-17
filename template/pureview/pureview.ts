@@ -1,11 +1,11 @@
-import { Contract } from 'ultrain-ts-lib/src/contract';
-import { Log } from 'ultrain-ts-lib//src/log';
-import { NAME, Account, RNAME } from 'ultrain-ts-lib//src/account';
-import { Action, ActionImpl } from 'ultrain-ts-lib//src/action';
-import { intToString } from 'ultrain-ts-lib//src/utils';
-import { PermissionLevel } from 'ultrain-ts-lib//src/permission-level';
-import { NEX } from 'ultrain-ts-lib//lib/name_ex';
-import { Transaction, OnErrorValue } from 'ultrain-ts-lib//src/transaction';
+import { Contract } from 'gchain-ts-lib/src/contract';
+import { Log } from 'gchain-ts-lib//src/log';
+import { NAME, Account, RNAME } from 'gchain-ts-lib//src/account';
+import { Action, ActionImpl } from 'gchain-ts-lib//src/action';
+import { intToString } from 'gchain-ts-lib//src/utils';
+import { PermissionLevel } from 'gchain-ts-lib//src/permission-level';
+import { NEX } from 'gchain-ts-lib//lib/name_ex';
+import { Transaction, OnErrorValue } from 'gchain-ts-lib//src/transaction';
 
 class Person implements Serializable, Returnable {
   @primaryid
@@ -40,7 +40,7 @@ class HumanResource extends Contract {
     p.name = name;
 
     let existing = this.persondb.exists(id);
-    ultrain_assert(!existing, 'this person has existed in db yet.');
+    gchain_assert(!existing, 'this person has existed in db yet.');
     this.persondb.emplace(p);
 
     return p;
@@ -61,7 +61,7 @@ class HumanResource extends Contract {
     Log.s('pureview: normal CALLED.').flush();
     let p = new Person();
     let existing = this.persondb.get(0, p);
-    ultrain_assert(existing, 'the person does not exist.');
+    gchain_assert(existing, 'the person does not exist.');
 
     p.name = 'normal modify it';
     this.persondb.modify(p);
