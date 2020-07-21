@@ -2,6 +2,7 @@ const config = {
   httpEndpoint: "http://127.0.0.1:8888",
   httpEndpointHistory: "http://127.0.0.1:3000",
   chainId: "80a5d6aa3e0c2e2052c3df1cc6b591b90b8307fb102bd174805e06c8b8b16ec1",
+  cipherType: 'gm',
   broadcast: true,
   sign: true,
   logger: {
@@ -11,7 +12,7 @@ const config = {
     file: false // append to file
   },
   symbol: "UGAS",
-  keyProvider:['5JbedY3jGfNK7HcLXcqGqSYrmX2n8wQWqZAuq6K7Gcf4Dj62UfL'],
+  keyProvider:[''],
   //expireInSeconds:60
 };
 module.exports = config;
