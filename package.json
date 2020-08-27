@@ -4,7 +4,7 @@
   "description": "The gkit default template",
   "main": "contract/index.d.ts",
   "typings": "index.d.ts",
-  "repository": "https://github.com/GenimousChain/gkit-template.git",
+  "repository": "https://gitee.com/gcfio/gkit-template.git",
   "license": "Apache-2.0",
   "keywords": [
     "GenimousChain 2.0 contract template"
@@ -16,14 +16,16 @@
     "async": "^2.6.1",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
+    "g3.js": "https://gitee.com/gcfio/g3.js.git",
+    "gchain-asm-script": "https://gitee.com/gcfio/gchain-asm-script.git",
     "gkit-lint": "^1.0.0",
     "mocha": "^5.2.0",
     "tslint": "^5.4.3",
-    "typescript": "^2.8.3",
-    "u3.js": "^0.3.16",
-    "gchain-asm-script": "git+https://github.com/GenimousChain/gchain-asm-script.git"
+    "typescript": "^2.8.3"
   },
   "dependencies": {
-    "gchain-ts-lib": "git+https://github.com/GenimousChain/gchain-ts-lib.git"
-  }
+    "g3-utils": "https://gitee.com/gcfio/g3-utils.git",
+    "gchain-ts-lib": "https://gitee.com/gcfio/gchain-ts-lib.git"
+  },
+  "contract_name": "MyContract"
 }
