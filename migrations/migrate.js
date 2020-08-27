@@ -1,4 +1,4 @@
-const {createU3} = require('u3.js');
+const {createG3} = require('g3.js');
 const config = require('../config');
-const u3 = createU3(config);
-u3.deploy('build/MyContract', 'ben');
+const g3 = createG3(config);
+g3.deploy('build/MyContract', config.account);
