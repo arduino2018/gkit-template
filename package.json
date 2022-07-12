@@ -16,16 +16,16 @@
     "async": "^2.6.1",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
-    "g3.js": "https://gitee.com/gcfio/g3.js.git",
-    "gchain-asm-script": "https://gitee.com/gcfio/gchain-asm-script.git",
+    "g3.js": "git+https://gitee.com/gcfio/g3.js.git",
+    "gchain-asm-script": "git+https://gitee.com/gcfio/gchain-asm-script.git",
     "gkit-lint": "^1.0.0",
     "mocha": "^5.2.0",
     "tslint": "^5.4.3",
     "typescript": "^2.8.3"
   },
   "dependencies": {
-    "g3-utils": "https://gitee.com/gcfio/g3-utils.git",
-    "gchain-ts-lib": "https://gitee.com/gcfio/gchain-ts-lib.git"
+    "g3-utils": "git+https://gitee.com/gcfio/g3-utils.git",
+    "gchain-ts-lib": "git+https://gitee.com/gcfio/gchain-ts-lib.git"
   },
   "contract_name": "MyContract"
 }
